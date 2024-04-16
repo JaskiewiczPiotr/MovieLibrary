@@ -22,6 +22,7 @@ public class MovieRepository {
         Movie movie = jdbcTemplate.queryForObject("SELECT id, name, rating FROM movie WHERE " + "id=?",
                 BeanPropertyRowMapper.newInstance(Movie.class), id);
         System.out.println(movie);
+
         return movie;
     }
 
