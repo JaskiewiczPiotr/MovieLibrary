@@ -19,8 +19,11 @@ public class MovieController {
        return movieRepository.getAll();
     }
 
+    @GetMapping("/allmovie")
+    public List<Movie>getMovie(){ return movieRepository.getMovie();}
 
-    @GetMapping("/id/{id}")
+
+    @GetMapping("/{id}")
     public Movie getById(@PathVariable("id") int id){
         return movieRepository.getById(id);
     }
