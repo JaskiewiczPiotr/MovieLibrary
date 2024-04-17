@@ -6,11 +6,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pl.piogrammer.MovieLibrary.model.Movie;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 public class MovieRepository {
 
+    List<Object> savedMovies = new ArrayList<Object>();
     @Autowired
     JdbcTemplate jdbcTemplate;
 
@@ -18,12 +20,14 @@ public class MovieRepository {
         return jdbcTemplate.query("SELECT id, name, rating FROM movie", BeanPropertyRowMapper.newInstance(Movie.class));
     }
 
-    public Movie getById(int id){
-        Movie movie = jdbcTemplate.queryForObject("SELECT id, name, rating FROM movie WHERE " + "id=?",
-                BeanPropertyRowMapper.newInstance(Movie.class), id);
-        System.out.println(movie);
+    public List<Movie> getMovie(){
+        return jdbcTemplate.query("select * from movie where id>5", BeanPropertyRowMapper.newInstance(Movie.class));
+    }
 
-        return movie;
+
+    public Movie getById(int id){
+        return jdbcTemplate.queryForObject("SELECT id, name, rating FROM movie WHERE " + "id=?",
+                BeanPropertyRowMapper.newInstance(Movie.class), id);
     }
 
     public Movie getByName(String name){
@@ -32,14 +36,15 @@ public class MovieRepository {
 
     }
 
+
     public int save(List<Movie> movies) {
         movies.forEach(movie -> jdbcTemplate
                 .update("INSERT INTO movie(name, rating) VALUES(?, ?)",
                         movie.getName(), movie.getRating()
                 ));
-
         return 1;
     }
+
 
     public int update(Movie movie){
         jdbcTemplate.update("UPDATE movie SET name=?, rating=? WHERE id=?",
@@ -48,7 +53,7 @@ public class MovieRepository {
     }
 
     public int delete(int id){
-       return  jdbcTemplate.update("DELETE FROM movie WHERE id=?", id);
+        return  jdbcTemplate.update("DELETE FROM movie WHERE id=?", id);
     }
 
 }
