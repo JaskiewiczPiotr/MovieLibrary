@@ -23,10 +23,10 @@ DROP TABLE IF EXISTS `movie`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `movie` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) DEFAULT NULL,
+  `id_movie` int NOT NULL AUTO_INCREMENT,
+  `movie_name` varchar(200) DEFAULT NULL,
   `rating` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  PRIMARY KEY (`id_movie`)
 ) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -48,12 +48,12 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `id` int NOT NULL AUTO_INCREMENT,
-  `name` varchar(200) DEFAULT NULL,
+  `id_user` int NOT NULL AUTO_INCREMENT,
+  `user_name` varchar(200) DEFAULT NULL,
   `mail` varchar(200) DEFAULT NULL,
   `password` varchar(250) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  PRIMARY KEY (`id_user`)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -62,7 +62,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'John','john@example.com','6e0b7076126a29d5dfcbd54835387b7b');
+INSERT INTO `user` VALUES (1,'John','john@example.com','6e0b7076126a29d5dfcbd54835387b7b'),(2,'Tom','tom123','tom@example.com'),(3,'Elthon','elton123','elthon@example.com');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -75,4 +75,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2024-04-17 15:15:20
+-- Dump completed on 2024-04-18 14:58:20
