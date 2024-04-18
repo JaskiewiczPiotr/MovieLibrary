@@ -20,7 +20,7 @@ public class UserController {
         return userRepository.getAllUsers();
     }
 
-    @PostMapping("/adduser")
+    @PostMapping("")
     public int addNewUser(@RequestBody List<User> users){
         return userRepository.saveUser(users);
     }

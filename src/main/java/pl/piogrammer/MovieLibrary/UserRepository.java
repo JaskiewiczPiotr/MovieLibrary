@@ -14,13 +14,13 @@ public class UserRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<User> getAllUsers(){
-        return jdbcTemplate.query("SELECT id, name, mail, password FROM user", BeanPropertyRowMapper.newInstance(User.class));
+        return jdbcTemplate.query("SELECT id_user, user_name, mail, password FROM user", BeanPropertyRowMapper.newInstance(User.class));
     }
 
     public int saveUser(List<User> users) {
         users.forEach(user -> jdbcTemplate.update("" +
-                "INSERT INTO user(name, mail, password) VALUES (?, ?, ?)",
-                user.getName(), user.getPassword(), user.getMail()));
+                "INSERT INTO user(user_name, mail, password) VALUES (?, ?, ?)",
+                user.getUsername(), user.getPassword(), user.getMail()));
         return 1;
     }
 

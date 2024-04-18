@@ -12,8 +12,8 @@ import lombok.NoArgsConstructor;
 @Getter
 public class Movie {
 
-    private int id;
-    private String name;
+    private int id_movie;
+    private String movie_name;
     private int rating;
 
 
