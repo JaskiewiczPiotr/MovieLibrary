@@ -24,14 +24,14 @@ public class MovieController {
 
 
     @GetMapping("/{id}")
-    public Movie getById(@PathVariable("id") int id){
-        return movieRepository.getById(id);
+    public Movie getById(@PathVariable("id_movie") int id_movie){
+        return movieRepository.getById(id_movie);
     }
 
 
-    @GetMapping("/name/{name}")
-    public Movie getByName(@PathVariable("name") String name){
-        return movieRepository.getByName(name);
+    @GetMapping("/movie_name/{movie_name}")
+    public Movie getByName(@PathVariable("movie_name") String movie_name){
+        return movieRepository.getByName(movie_name);
     }
 
     @PostMapping("")
@@ -39,11 +39,11 @@ public class MovieController {
         return movieRepository.save(movies);
     }
 
-    @PutMapping("/{id}")
-    public int update(@PathVariable("id") int id, @RequestBody Movie updatedMovie){
-        Movie movie = movieRepository.getById(id);
+    @PutMapping("/{id_movie}")
+    public int update(@PathVariable("id_movie") int id_movie, @RequestBody Movie updatedMovie){
+        Movie movie = movieRepository.getById(id_movie);
         if(movie != null){
-            movie.setName(updatedMovie.getName());
+            movie.setMovie_name(updatedMovie.getMovie_name());
             movie.setRating(updatedMovie.getRating());
 
             movieRepository.update(movie);
@@ -53,12 +53,12 @@ public class MovieController {
             return -1;
         }
     }
-    @PatchMapping("/{id}")
-        public int partiallyUpdate(@PathVariable("id") int id, @RequestBody Movie updatedMovie){
-            Movie movie = movieRepository.getById(id);
+    @PatchMapping("/{id_movie}")
+        public int partiallyUpdate(@PathVariable("id_movie") int id_movie, @RequestBody Movie updatedMovie){
+            Movie movie = movieRepository.getById(id_movie);
 
             if(movie != null){
-                if(updatedMovie.getName() != null) movie.setName(updatedMovie.getName());
+                if(updatedMovie.getMovie_name() != null) movie.setMovie_name(updatedMovie.getMovie_name());
                 if(updatedMovie.getRating() > 0) movie.setRating(updatedMovie.getRating());
 
                 movieRepository.update(movie);
@@ -69,8 +69,8 @@ public class MovieController {
         }
 
         @DeleteMapping("/{id}")
-        public int delete(@PathVariable("id") int id){
-        return movieRepository.delete(id);
+        public int delete(@PathVariable("id_movie") int id_movie){
+        return movieRepository.delete(id_movie);
         }
 
 

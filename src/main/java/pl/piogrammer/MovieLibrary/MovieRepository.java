@@ -17,21 +17,21 @@ public class MovieRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<Movie> getAll(){
-        return jdbcTemplate.query("SELECT id, name, rating FROM movie", BeanPropertyRowMapper.newInstance(Movie.class));
+        return jdbcTemplate.query("SELECT id_movie, movie_name, rating FROM movie", BeanPropertyRowMapper.newInstance(Movie.class));
     }
 
     public List<Movie> getMovie(){
-        return jdbcTemplate.query("select * from movie where id>5", BeanPropertyRowMapper.newInstance(Movie.class));
+        return jdbcTemplate.query("select * from movie where id_movie>5", BeanPropertyRowMapper.newInstance(Movie.class));
     }
 
 
-    public Movie getById(int id){
-        return jdbcTemplate.queryForObject("SELECT id, name, rating FROM movie WHERE " + "id=?",
-                BeanPropertyRowMapper.newInstance(Movie.class), id);
+    public Movie getById(int id_movie){
+        return jdbcTemplate.queryForObject("SELECT id_movie, movie_name, rating FROM movie WHERE " + "id_movie=?",
+                BeanPropertyRowMapper.newInstance(Movie.class), id_movie);
     }
 
     public Movie getByName(String name){
-        return jdbcTemplate.queryForObject("SELECT id, name, rating FROM movie WHERE " + "name=?",
+        return jdbcTemplate.queryForObject("SELECT id_movie, movie_name, rating FROM movie WHERE " + "name=?",
                 BeanPropertyRowMapper.newInstance(Movie.class), name);
 
     }
@@ -39,21 +39,21 @@ public class MovieRepository {
 
     public int save(List<Movie> movies) {
         movies.forEach(movie -> jdbcTemplate
-                .update("INSERT INTO movie(name, rating) VALUES(?, ?)",
-                        movie.getName(), movie.getRating()
+                .update("INSERT INTO movie(movie_name, rating) VALUES(?, ?)",
+                        movie.getMovie_name(), movie.getRating()
                 ));
         return 1;
     }
 
 
     public int update(Movie movie){
-        jdbcTemplate.update("UPDATE movie SET name=?, rating=? WHERE id=?",
-                movie.getName(), movie.getRating(), movie.getId());
+        jdbcTemplate.update("UPDATE movie SET movie_name=?, rating=? WHERE id=?",
+                movie.getMovie_name(), movie.getRating(), movie.getId_movie());
         return 1;
     }
 
-    public int delete(int id){
-        return  jdbcTemplate.update("DELETE FROM movie WHERE id=?", id);
+    public int delete(int id_movie){
+        return  jdbcTemplate.update("DELETE FROM movie WHERE id_movie=?", id_movie);
     }
 
 }
