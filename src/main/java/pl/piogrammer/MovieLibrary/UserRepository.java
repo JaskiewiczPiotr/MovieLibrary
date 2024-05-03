@@ -20,8 +20,19 @@ public class UserRepository {
     public int saveUser(List<User> users) {
         users.forEach(user -> jdbcTemplate.update("" +
                 "INSERT INTO user(user_name, mail, password) VALUES (?, ?, ?)",
-                user.getUsername(), user.getPassword(), user.getMail()));
+                user.getUser_name(),user.getMail(), user.getPassword()));
         return 1;
     }
+
+    public int saveSingleUser(User user) {
+        int rowsAffected = jdbcTemplate.update(
+                "INSERT INTO user(user_name, mail, password) VALUES (?, ?, ?)",
+                user.getUser_name(),
+                user.getMail(),
+                user.getPassword()
+        );
+        return rowsAffected;
+    }
+
 
 }
