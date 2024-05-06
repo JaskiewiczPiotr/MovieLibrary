@@ -29,7 +29,7 @@ public class RegisterController {
     @PostMapping("/register")
     public String register(@ModelAttribute User user){
         System.out.println("register request" + user);
-        User registeredUser = userService.registerUser(user.getUser_name(), user.getPassword(), user.getMail());
+        User registeredUser = userService.registerUser(user.getLogin(), user.getPassword(), user.getMail());
         return registeredUser == null ? "error_page" : "redirect:/login";
     }
 }

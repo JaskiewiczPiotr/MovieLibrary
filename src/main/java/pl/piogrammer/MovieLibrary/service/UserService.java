@@ -14,16 +14,21 @@ public class UserService {
     }
 
 
-    public User registerUser(String user_name, String mail, String password) {
-        if (user_name == null || password == null) {
+    public User registerUser(String login, String mail, String password) {
+        if (login == null || password == null) {
             return null;
         } else {
             User user = new User();
-            user.setUser_name(user_name);
+            user.setLogin(login);
             user.setMail(mail);
             user.setPassword(password);
             userRepo.save(user);
             return userRepo.save(user);
         }
-    } 
+    }
+
+    public User authenticate(String login, String password){
+        return (User) userRepo.findByLoginAndPassword(login, password).orElse(null);
+    }
 }
+

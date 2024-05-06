@@ -14,20 +14,20 @@ public class UserRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<User> getAllUsers(){
-        return jdbcTemplate.query("SELECT id_user, user_name, mail, password FROM user", BeanPropertyRowMapper.newInstance(User.class));
+        return jdbcTemplate.query("SELECT id_user, login, mail, password FROM user", BeanPropertyRowMapper.newInstance(User.class));
     }
 
     public int saveUser(List<User> users) {
         users.forEach(user -> jdbcTemplate.update("" +
-                "INSERT INTO user(user_name, mail, password) VALUES (?, ?, ?)",
-                user.getUser_name(),user.getMail(), user.getPassword()));
+                "INSERT INTO user(login, mail, password) VALUES (?, ?, ?)",
+                user.getLogin(),user.getMail(), user.getPassword()));
         return 1;
     }
 
     public int saveSingleUser(User user) {
         int rowsAffected = jdbcTemplate.update(
-                "INSERT INTO user(user_name, mail, password) VALUES (?, ?, ?)",
-                user.getUser_name(),
+                "INSERT INTO user(login, mail, password) VALUES (?, ?, ?)",
+                user.getLogin(),
                 user.getMail(),
                 user.getPassword()
         );
