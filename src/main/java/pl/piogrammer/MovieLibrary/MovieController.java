@@ -1,8 +1,10 @@
 package pl.piogrammer.MovieLibrary;
 
 
+import ch.qos.logback.core.model.Model;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 import pl.piogrammer.MovieLibrary.model.Movie;
 
 import java.util.List;
@@ -22,7 +24,12 @@ public class MovieController {
     @GetMapping("/allmovie")
     public List<Movie>getMovie(){ return movieRepository.getMovie();}
 
-
+    @GetMapping("/movieweb")
+    public ModelAndView getAllMovies() {
+        ModelAndView modelAndView = new ModelAndView("movies");
+        modelAndView.addObject("movies", movieRepository.getAll());
+        return modelAndView;
+    }
     @GetMapping("/{id}")
     public Movie getById(@PathVariable("id_movie") int id_movie){
         return movieRepository.getById(id_movie);

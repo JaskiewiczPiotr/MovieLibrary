@@ -33,7 +33,12 @@ public class LoginController {
     public String login(@ModelAttribute User user, Model model){
         System.out.println("login request" + user);
         User authenticated = userService.authenticate(user.getLogin(), user.getPassword());
-        return "hello";
+        if(authenticated != null){
+            model.addAttribute("userLogin", authenticated.getLogin());
+            return "user_view";
+        }else{
+            return "error_page";
+        }
     }
 
 }
