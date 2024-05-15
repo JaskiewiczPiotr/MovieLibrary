@@ -1,26 +1,18 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
   <meta charset="UTF-8">
-  <title>List of Movies</title>
-</head>
+  <title>Movies List</title>
+  <link rel="stylesheet" href="user_view_movies_style.css"></head>
 <body>
-<h1>List of Movies</h1>
-<table>
-  <thead>
-  <tr>
-    <th>ID</th>
-    <th>Name</th>
-    <th>Rating</th>
-  </tr>
-  </thead>
-  <tbody>
-  <tr th:each="movie : ${movies}">
-    <td th:text="${movie.id_movie}"></td>
-    <td th:text="${movie.movie_name}"></td>
-    <td th:text="${movie.rating}"></td>
-  </tr>
-  </tbody>
-</table>
+<h2>Movies List</h2>
+<ul>
+  <!-- Iterate through the list of movies and display their information -->
+  <li th:each="movie : ${movie}">
+    <strong>Title:</strong> <span th:text="${movie.id_movie}"></span><br>
+    <strong>Director:</strong> <span th:text="${movie.movie_name}"></span><br>
+    <strong>Release Year:</strong> <span th:text="${movie.rating}"></span><br>
+  </li>
+</ul>
 </body>
 </html>
