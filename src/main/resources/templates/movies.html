@@ -6,12 +6,16 @@
   <link rel="stylesheet" href="user_view_movies_style.css"></head>
 <body>
 <h2>Movies List</h2>
+
 <ul>
   <!-- Iterate through the list of movies and display their information -->
   <li th:each="movie : ${movie}">
     <strong>Title:</strong> <span th:text="${movie.id_movie}"></span><br>
     <strong>Director:</strong> <span th:text="${movie.movie_name}"></span><br>
     <strong>Release Year:</strong> <span th:text="${movie.rating}"></span><br>
+    <div class="input-box">
+      <input type="submit" name="sign-in" value="Update movie">
+    </div>
   </li>
 </ul>
 </body>

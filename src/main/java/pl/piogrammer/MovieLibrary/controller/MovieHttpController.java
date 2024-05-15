@@ -23,4 +23,6 @@ public class MovieHttpController {
         model.addAttribute("movie",movie);
         return "movies";
     }
+
+
 }
