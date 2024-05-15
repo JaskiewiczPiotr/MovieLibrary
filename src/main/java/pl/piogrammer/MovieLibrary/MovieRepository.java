@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pl.piogrammer.MovieLibrary.model.Movie;
+import pl.piogrammer.MovieLibrary.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ public class MovieRepository {
         return jdbcTemplate.queryForObject("SELECT id_movie, movie_name, rating FROM movie WHERE " + "id_movie=?",
                 BeanPropertyRowMapper.newInstance(Movie.class), id_movie);
     }
+
 
     public Movie getByName(String name){
         return jdbcTemplate.queryForObject("SELECT id_movie, movie_name, rating FROM movie WHERE " + "name=?",
@@ -56,4 +58,14 @@ public class MovieRepository {
         return  jdbcTemplate.update("DELETE FROM movie WHERE id_movie=?", id_movie);
     }
 
+
+    public int saveSingleMovie(Movie movie) {
+        int rowsAffected = jdbcTemplate.update(
+                "INSERT INTO movie(id_movie, movie_name, rating) VALUES (?, ?, ?)",
+                movie.getId_movie(),
+                movie.getMovie_name(),
+                movie.getRating()
+        );
+        return rowsAffected;
+    }
 }
