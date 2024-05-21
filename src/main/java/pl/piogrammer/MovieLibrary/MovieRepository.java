@@ -68,4 +68,15 @@ public class MovieRepository {
         );
         return rowsAffected;
     }
+
+    public int updateMovie(Movie movie) {
+        int rowsAffected = jdbcTemplate.update(
+                "UPDATE movie SET movie_name = ?, rating = ? WHERE id_movie = ?",
+                movie.getMovie_name(),
+                movie.getRating(),
+                movie.getId_movie()
+        );
+        return rowsAffected;
+    }
+
 }
