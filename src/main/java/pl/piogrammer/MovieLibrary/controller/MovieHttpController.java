@@ -42,11 +42,10 @@ public class MovieHttpController {
         // edirect back to the movies list
     }
 
-    @PostMapping("/addnewmovie")
-    public String addNewMovie(@RequestParam("id") Long id, Model model){
-        Movie movie = movieRepository.getById(id.byteValue());
-        model.addAttribute("movie", movie);
-        return "update_movie_form";
+    @GetMapping("/addnewmovie")
+    public String addNewMovie(Model model){
+        model.addAttribute("movie", new Movie());
+        return "add_movie_form";
     }
 
 }
