@@ -42,6 +42,13 @@ public class MovieHttpController {
         // edirect back to the movies list
     }
 
+    @PostMapping("/saveAddedMovie")
+    public String saveAddedMovie(Movie movie){
+        movieRepository.saveSingleMovie(movie);
+        return "redirect:/httpmovies";
+    }
+
+
     @GetMapping("/addnewmovie")
     public String addNewMovie(Model model){
         model.addAttribute("movie", new Movie());

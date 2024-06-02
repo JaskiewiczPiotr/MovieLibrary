@@ -8,7 +8,7 @@
 <body>
 <h2>Add movie</h2>
 
-<form th:action="@{/saveSingleMovie}" th:method="post">
+<form th:action="@{/saveAddedMovie}" th:method="post">
   <label for="id_movie">Id</label>
   <input type="text" id="id_movie" th:name="id_movie" th:value="${movie.id_movie}" /><br>
   <label for="movie_name">Name</label>
