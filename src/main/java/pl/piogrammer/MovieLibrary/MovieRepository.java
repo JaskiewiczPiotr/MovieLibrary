@@ -59,6 +59,12 @@ public class MovieRepository {
     }
 
 
+    public int deleteMovie(Movie movie) {
+        int rowsAffected = jdbcTemplate.update("DELETE FROM movie WHERE id_movie = ?", getById(121)
+                );
+        return rowsAffected;
+    }
+
     public int saveSingleMovie(Movie movie) {
         int rowsAffected = jdbcTemplate.update(
                 "INSERT INTO movie(id_movie, movie_name, rating) VALUES (?, ?, ?)",
