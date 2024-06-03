@@ -41,9 +41,9 @@ public class MovieHttpController {
         return "delete_movie_form";
     }
 
-    @PostMapping ("/saveDeleted")
+    @PostMapping ("/saveDeletedMovie")
     public String saveDeletedMovie(Movie movie){
-        movieRepository.delete(movie.getId_movie());
+        movieRepository.delete(movie);
         return "redirect:/httpmovies";
     }
 

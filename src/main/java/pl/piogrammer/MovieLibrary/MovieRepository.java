@@ -54,8 +54,12 @@ public class MovieRepository {
         return 1;
     }
 
-    public int delete(int id_movie){
-        return  jdbcTemplate.update("DELETE FROM movie WHERE id_movie=?", id_movie);
+    public int delete(Movie movie){
+          jdbcTemplate.update("DELETE FROM movie WHERE id_movie=?",
+                movie.getId_movie());
+          return 1;
+
+
     }
 
 
