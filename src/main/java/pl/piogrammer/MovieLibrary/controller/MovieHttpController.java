@@ -29,17 +29,32 @@ public class MovieHttpController {
     @PostMapping("/update")
     public String updateMovie(@RequestParam("id") Long id, Model model) {
         // Fetch the movie by ID from the service or repository
-        Movie movie = movieRepository.getById(id.byteValue());
+        Movie movie = movieRepository.getById(id.intValue());
         model.addAttribute("movie", movie);
         return "update_movie_form"; // The name of your update form Thymeleaf template
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam("id") Long id, Model model){
-        Movie movie = movieRepository.getById(id.byteValue());
+    public String delete(@RequestParam("id") Integer id, Model model){
+
+        Movie movie = movieRepository.getById(id.intValue());
         model.addAttribute("movie", movie);
         return "delete_movie_form";
     }
+/*
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam("id_movie") Integer id, Model model) {
+        // Check if the movie exists before trying to delete it
+        if (movieRepo.existsById(id)) {
+            movieRepo.deleteById(id);
+            model.addAttribute("message", "Movie deleted successfully");
+        } else {
+            model.addAttribute("message", "Movie not found");
+        }
+        return "delete_movie_confirmation";
+    }*/
+
 
     @PostMapping ("/saveDeletedMovie")
     public String saveDeletedMovie(Movie movie){
