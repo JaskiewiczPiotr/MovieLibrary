@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Update Movie</title>
+  <link rel="stylesheet" href="user_view_movies_style.css">
+</head>
+<body>
+<h2>Delete Movie</h2>
+
+<form th:action="@{/saveDeletedMovie}" th:method="delete">
+  <label for="id_movie">Id</label>
+  <input type="text" id="id_movie" th:name="id_movie" th:value="${movie.id_movie}" /><br>
+  <label for="movie_name">Name</label>
+  <input type="text" id="movie_name" th:name="movie_name" th:value="${movie.movie_name}" /><br>
+  <label for="rating">Rating</label>
+  <input type="text" id="rating" th:name="rating" th:value="${movie.rating}" /><br>
+  <input type="submit" value="Delete">
+</form>
+
+</body>
+</html>

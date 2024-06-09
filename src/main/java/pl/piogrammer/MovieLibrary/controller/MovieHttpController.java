@@ -34,6 +34,19 @@ public class MovieHttpController {
         return "update_movie_form"; // The name of your update form Thymeleaf template
     }
 
+    @PostMapping("/delete")
+    public String delete(@RequestParam("id") Long id, Model model){
+        Movie movie = movieRepository.getById(id.byteValue());
+        model.addAttribute("movie", movie);
+        return "delete_movie_form";
+    }
+
+    @PostMapping ("/saveDeletedMovie")
+    public String saveDeletedMovie(Movie movie){
+        movieRepository.delete(movie);
+        return "redirect:/httpmovies";
+    }
+
     @PostMapping("/saveUpdate")
     public String saveUpdate(Movie movie) {
         // Save the updated movie details to the database

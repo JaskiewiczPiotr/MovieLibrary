@@ -74,11 +74,11 @@ public class MovieController {
                 return -1;
             }
         }
-
+/*
         @DeleteMapping("/{id}")
         public int delete(@PathVariable("id_movie") int id_movie){
         return movieRepository.delete(id_movie);
-        }
+        }*/
 
 
     }
