@@ -29,11 +29,11 @@ public class MovieController {
         ModelAndView modelAndView = new ModelAndView("movies");
         modelAndView.addObject("movies", movieRepository.getAll());
         return modelAndView;
-    }
+    }/*
     @GetMapping("/{id}")
     public Movie getById(@PathVariable("id_movie") int id_movie){
         return movieRepository.getById(id_movie);
-    }
+    }*/
 
 
     @GetMapping("/movie_name/{movie_name}")

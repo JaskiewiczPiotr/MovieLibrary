@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import pl.piogrammer.MovieLibrary.MovieRepository;
 import pl.piogrammer.MovieLibrary.model.Movie;
+import pl.piogrammer.MovieLibrary.service.MovieService;
 
 import java.util.List;
 
@@ -17,6 +19,22 @@ public class MovieHttpController {
     @Autowired
     MovieRepository movieRepository;
 
+    @Autowired
+    private final MovieService movieService;
+
+    public MovieHttpController(MovieService movieService) {
+        this.movieService = movieService;
+    }
+
+    @PostMapping("/saveAddedMovie")
+    public String saveAddedMovie(@ModelAttribute Movie movie, Model model) {
+        if (movieService.saveMovieIfNotExists(movie)) {
+            return "redirect:/httpmovies";
+        } else {
+            model.addAttribute("error", "Movie with the same name already exists.");
+            return "error_added_movie";
+        }
+    }
 
 
     @GetMapping("/httpmovies")
@@ -69,18 +87,22 @@ public class MovieHttpController {
         return "redirect:/httpmovies"; // R
         // edirect back to the movies list
     }
-
+/*
     @PostMapping("/saveAddedMovie")
     public String saveAddedMovie(Movie movie){
+
+        System.out.println(movieRepository.getAll());
         movieRepository.saveSingleMovie(movie);
         return "redirect:/httpmovies";
     }
-
+*/
 
     @GetMapping("/addnewmovie")
     public String addNewMovie(Model model){
         model.addAttribute("movie", new Movie());
         return "add_movie_form";
     }
+
+
 
 }
