@@ -8,13 +8,15 @@
 <body>
 <h2>Add movie</h2>
 
-<form th:action="@{/saveAddedMovie}" th:method="post">
+<form th:action="@{/saveAddedMovie}" method="post" enctype="multipart/form-data">
   <label for="id_movie">Id</label>
   <input type="text" id="id_movie" th:name="id_movie" th:value="${movie.id_movie}" /><br>
   <label for="movie_name">Name</label>
   <input type="text" id="movie_name" th:name="movie_name" th:value="${movie.movie_name}" /><br>
   <label for="rating">Rating</label>
   <input type="text" id="rating" th:name="rating" th:value="${movie.rating}" /><br>
+  <label for="image">Image</label>
+  <input type="file" id="image" name="image" /><br>
   <input type="submit" value="Save">
 </form>
 

@@ -18,7 +18,12 @@ public class MovieRepository {
     JdbcTemplate jdbcTemplate;
 
     public List<Movie> getAll(){
-        return jdbcTemplate.query("SELECT id_movie, movie_name, rating FROM movie", BeanPropertyRowMapper.newInstance(Movie.class));
+        List<Movie> movies = jdbcTemplate.query("SELECT id_movie, movie_name, rating, image FROM movie", BeanPropertyRowMapper.newInstance(Movie.class));
+        for (Movie movie : movies) {
+            movie.setImageBase64(); // Set Base64 image data
+        }
+
+        return movies;
     }
 
     public List<Movie> getMovie(){
@@ -77,10 +82,12 @@ public class MovieRepository {
 
     public int saveSingleMovie(Movie movie) {
         int rowsAffected = jdbcTemplate.update(
-                "INSERT INTO movie(id_movie, movie_name, rating) VALUES (?, ?, ?)",
+                "INSERT INTO movie(id_movie, movie_name, rating, image) VALUES (?, ?, ?, ?)",
                 movie.getId_movie(),
                 movie.getMovie_name(),
-                movie.getRating()
+                movie.getRating(),
+                movie.getImage()
+
         );
         return rowsAffected;
     }
