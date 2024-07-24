@@ -4,12 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pl.piogrammer.MovieLibrary.MovieRepository;
 import pl.piogrammer.MovieLibrary.model.Movie;
 
+import java.sql.Blob;
 import java.util.List;
 
 @Controller
@@ -47,14 +49,45 @@ public class MovieHttpController {
         movieRepository.delete(movie);
         return "redirect:/httpmovies";
     }
-
+/*
     @PostMapping("/saveUpdate")
     public String saveUpdate(Movie movie) {
         // Save the updated movie details to the database
         movieRepository.updateMovie(movie);
         return "redirect:/httpmovies"; // R
         // edirect back to the movies list
+    }*/
+
+    @PostMapping("/saveUpdate")
+    public String saveUpdate(@RequestParam("id_movie") int idMovie,
+                             @RequestParam("movie_name") String movieName,
+                             @RequestParam("rating") int rating,
+                             @RequestParam("image") MultipartFile imageFile,
+                             Model model) {
+        try {
+            // Convert MultipartFile to Blob
+            Blob imageBlob = imageFile.isEmpty() ? null : new javax.sql.rowset.serial.SerialBlob(imageFile.getBytes());
+
+            // Create a new Movie object with the provided details
+            Movie movie = new Movie();
+            movie.setId_movie(idMovie);
+            movie.setMovie_name(movieName);
+            movie.setRating(rating);
+            movie.setImage(imageBlob);
+
+            // Call the repository method to update the movie
+            movieRepository.updateMovie(movie);
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle the exception (e.g., show an error message)
+            model.addAttribute("error", "Error updating movie: " + e.getMessage());
+            return "error_page"; // Redirect or show an error page
+        }
+
+        return "redirect:/httpmovies";
     }
+
+
 /*
     @PostMapping("/saveAddedMovie")
     public String saveAddedMovie(Movie movie){

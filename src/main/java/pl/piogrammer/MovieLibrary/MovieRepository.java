@@ -88,9 +88,10 @@ public class MovieRepository {
 
     public int updateMovie(Movie movie) {
         int rowsAffected = jdbcTemplate.update(
-                "UPDATE movie SET movie_name = ?, rating = ? WHERE id_movie = ?",
+                "UPDATE movie SET movie_name = ?, rating = ?, image = ? WHERE id_movie = ?",
                 movie.getMovie_name(),
                 movie.getRating(),
+                movie.getImage() != null ? movie.getImage() : null, // Handle the case where the image might be null
                 movie.getId_movie()
         );
         return rowsAffected;
