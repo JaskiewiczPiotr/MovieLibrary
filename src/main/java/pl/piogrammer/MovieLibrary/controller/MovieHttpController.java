@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import pl.piogrammer.MovieLibrary.MovieRepository;
 import pl.piogrammer.MovieLibrary.model.Movie;
 
@@ -27,9 +28,9 @@ public class MovieHttpController {
     }
 
     @PostMapping("/update")
-    public String updateMovie(@RequestParam("id") Long id, Model model) {
+    public String updateMovie(@RequestParam("id") int id, Model model) {
         // Fetch the movie by ID from the service or repository
-        Movie movie = movieRepository.getById(id.byteValue());
+        Movie movie = movieRepository.getById(id);
         model.addAttribute("movie", movie);
         return "update_movie_form"; // The name of your update form Thymeleaf template
     }
@@ -54,10 +55,34 @@ public class MovieHttpController {
         return "redirect:/httpmovies"; // R
         // edirect back to the movies list
     }
-
+/*
     @PostMapping("/saveAddedMovie")
     public String saveAddedMovie(Movie movie){
         movieRepository.saveSingleMovie(movie);
+        return "redirect:/httpmovies";
+    }*/
+
+    @PostMapping("/saveAddedMovie")
+    public String saveAddedMovie(@RequestParam("id_movie") int id_movie,
+                                 @RequestParam("movie_name") String movieName,
+                                 @RequestParam("rating") int rating,
+                                 @RequestParam("image") MultipartFile imageFile) {
+        try {
+            // Create a new Movie object
+            Movie movie = new Movie();
+            movie.setMovie_name(movieName);
+            movie.setRating(rating);
+
+            // Set the image as Blob
+            if (!imageFile.isEmpty()) {
+                movie.setImage(new javax.sql.rowset.serial.SerialBlob(imageFile.getBytes()));
+            }
+
+            // Save the movie using the repository
+            movieRepository.saveSingleMovie(movie);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return "redirect:/httpmovies";
     }
 
