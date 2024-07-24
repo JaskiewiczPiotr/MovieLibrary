@@ -43,6 +43,12 @@ public class MovieRepository {
 
     }
 
+    public boolean movieExistsByName(String movieName) {
+        String sql = "SELECT COUNT(*) FROM movie WHERE movie_name = ?";
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, movieName);
+        return count != null && count > 0;
+    }
+
 
     public int save(List<Movie> movies) {
         movies.forEach(movie -> jdbcTemplate
@@ -85,6 +91,8 @@ public class MovieRepository {
         );
         return rowsAffected;
     }
+
+
 
     public int updateMovie(Movie movie) {
         int rowsAffected = jdbcTemplate.update(
