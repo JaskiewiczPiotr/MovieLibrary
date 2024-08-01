@@ -105,4 +105,15 @@ public class MovieRepository {
         return rowsAffected;
     }
 
+    public List<Movie> findByName(String movieName) {
+        String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE movie_name LIKE ?";
+        return jdbcTemplate.query(sql, new Object[]{"%" + movieName + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+    }
+
+    public List<Movie> findById(int id_movie){
+        String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE id_movie LIKE ?";
+        return jdbcTemplate.query(sql, new Object[]{"%" + id_movie + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+    }
+
+
 }

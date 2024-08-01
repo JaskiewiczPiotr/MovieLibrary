@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import pl.piogrammer.MovieLibrary.MovieRepository;
 import pl.piogrammer.MovieLibrary.model.Movie;
-import pl.piogrammer.MovieLibrary.service.MovieService;
 
 import java.sql.Blob;
 import java.util.List;
@@ -21,22 +20,6 @@ public class MovieHttpController {
     @Autowired
     MovieRepository movieRepository;
 
-    @Autowired
-    private final MovieService movieService;
-
-    public MovieHttpController(MovieService movieService) {
-        this.movieService = movieService;
-    }
-
-    @PostMapping("/saveAddedMovie")
-    public String saveAddedMovie(@ModelAttribute Movie movie, Model model) {
-        if (movieService.saveMovieIfNotExists(movie)) {
-            return "redirect:/httpmovies";
-        } else {
-            model.addAttribute("error", "Movie with the same name already exists.");
-            return "error_added_movie";
-        }
-    }
 
 
     @GetMapping("/httpmovies")
@@ -49,36 +32,17 @@ public class MovieHttpController {
     @PostMapping("/update")
     public String updateMovie(@RequestParam("id") int id, Model model) {
         // Fetch the movie by ID from the service or repository
-
         Movie movie = movieRepository.getById(id);
-
-        Movie movie = movieRepository.getById(id.intValue());
-
         model.addAttribute("movie", movie);
         return "update_movie_form"; // The name of your update form Thymeleaf template
     }
 
     @PostMapping("/delete")
-    public String delete(@RequestParam("id") Integer id, Model model){
-
-        Movie movie = movieRepository.getById(id.intValue());
+    public String delete(@RequestParam("id") Long id, Model model){
+        Movie movie = movieRepository.getById(id.byteValue());
         model.addAttribute("movie", movie);
         return "delete_movie_form";
     }
-/*
-
-    @PostMapping("/delete")
-    public String delete(@RequestParam("id_movie") Integer id, Model model) {
-        // Check if the movie exists before trying to delete it
-        if (movieRepo.existsById(id)) {
-            movieRepo.deleteById(id);
-            model.addAttribute("message", "Movie deleted successfully");
-        } else {
-            model.addAttribute("message", "Movie not found");
-        }
-        return "delete_movie_confirmation";
-    }*/
-
 
     @PostMapping ("/saveDeletedMovie")
     public String saveDeletedMovie(Movie movie){
@@ -127,8 +91,6 @@ public class MovieHttpController {
 /*
     @PostMapping("/saveAddedMovie")
     public String saveAddedMovie(Movie movie){
-
-        System.out.println(movieRepository.getAll());
         movieRepository.saveSingleMovie(movie);
         return "redirect:/httpmovies";
     }*/
@@ -156,13 +118,43 @@ public class MovieHttpController {
         }
         return "redirect:/httpmovies";
     }
-*/
+
 
     @GetMapping("/addnewmovie")
     public String addNewMovie(Model model){
         model.addAttribute("movie", new Movie());
         return "add_movie_form";
     }
+/*
+    @GetMapping("/getbymoviename")
+    public String getByMovieName(@RequestParam("movie_name") String movie_name, Model model){
+        Movie movie = movieRepository.getByName(movie_name);
+        model.addAttribute("movie",movie);
+        return "moviesbyname";
+    }*/
+/*
+    @GetMapping("/moviesbyname")
+    public String getMoviesByName(@RequestParam("movie_name") String movie_name, Model model){
+        List<Movie> movie = (List<Movie>) movieRepository.getByName(movie_name);
+        model.addAttribute("movie", movie);
+        return "moviesbyname";
+    }
+*/
+
+    @PostMapping("/searchMoviesByName")
+    public String searchMovies(@RequestParam("movieName") String movieName, Model model) {
+        List<Movie> movies = movieRepository.findByName(movieName);
+        model.addAttribute("movie", movies);
+        return "movies";
+    }
+
+    @PostMapping("/searchMoviesById")
+    public String searchMovies(@RequestParam("id_movie") int id_movie, Model model) {
+        List<Movie> movies = movieRepository.findById(id_movie);
+        model.addAttribute("movie", movies);
+        return "movies";
+    }
+
 
 
 
