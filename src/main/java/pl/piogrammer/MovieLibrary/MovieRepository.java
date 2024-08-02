@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import pl.piogrammer.MovieLibrary.Exceptions.MovieNotFoundException;
 import pl.piogrammer.MovieLibrary.model.Movie;
 import pl.piogrammer.MovieLibrary.model.User;
 
@@ -16,6 +17,7 @@ public class MovieRepository {
     List<Object> savedMovies = new ArrayList<Object>();
     @Autowired
     JdbcTemplate jdbcTemplate;
+    MovieNotFoundException movieNotFoundException;
 
     public List<Movie> getAll(){
         List<Movie> movies = jdbcTemplate.query("SELECT id_movie, movie_name, rating, image FROM movie", BeanPropertyRowMapper.newInstance(Movie.class));
@@ -104,16 +106,48 @@ public class MovieRepository {
         );
         return rowsAffected;
     }
+/*
 
+this method is used to only return movies by name it doesnt response any expetion when
+movie with specified name doesnt exist in  db
     public List<Movie> findByName(String movieName) {
         String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE movie_name LIKE ?";
         return jdbcTemplate.query(sql, new Object[]{"%" + movieName + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+    }*/
+///this method find movie by name and throw expeption when movie with specified name doesnt exist
+    public List<Movie> findByName(String movieName) {
+        String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE movie_name LIKE ?";
+        List<Movie> movies = jdbcTemplate.query(sql, new Object[]{"%" + movieName + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+
+        if (movies.isEmpty()) {
+            throw new MovieNotFoundException("No movies found with the name: " + movieName);
+        }
+
+        return movies;
     }
+
+
+    public List<Movie> findById(int id_movie){
+        String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE id_movie LIKE ?";
+        List<Movie> movies = jdbcTemplate.query(sql, new Object[]{"%" + id_movie + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+
+        if(movies.isEmpty()){
+            throw new MovieNotFoundException("No movies found with the id: " + id_movie);
+        }
+        return movies;
+
+    }
+/*
+this method is used to only return movies by name it doesnt response any expetion when
+movie with specified name doesnt exist in  db
 
     public List<Movie> findById(int id_movie){
         String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE id_movie LIKE ?";
         return jdbcTemplate.query(sql, new Object[]{"%" + id_movie + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
-    }
+    }*/
+
+
+
 
 
 }

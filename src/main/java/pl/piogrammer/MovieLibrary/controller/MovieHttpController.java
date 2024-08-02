@@ -1,18 +1,19 @@
 package pl.piogrammer.MovieLibrary.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
+import pl.piogrammer.MovieLibrary.Exceptions.MovieNotFoundException;
 import pl.piogrammer.MovieLibrary.MovieRepository;
 import pl.piogrammer.MovieLibrary.model.Movie;
 
 import java.sql.Blob;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class MovieHttpController {
@@ -148,12 +149,25 @@ public class MovieHttpController {
         return "movies";
     }
 
+    @ExceptionHandler(MovieNotFoundException.class)
+    public String handleMovieNotFoundException(MovieNotFoundException ex, Model model) {
+        model.addAttribute("errorMessage", ex.getMessage());
+        return "error_not_movie_found"; // Ensure you have an 'error.html' Thymeleaf template to display the error message
+    }
+
+
+
+
     @PostMapping("/searchMoviesById")
     public String searchMovies(@RequestParam("id_movie") int id_movie, Model model) {
         List<Movie> movies = movieRepository.findById(id_movie);
         model.addAttribute("movie", movies);
         return "movies";
     }
+
+
+
+
 
 
 
