@@ -12,6 +12,9 @@
   <form th:action="@{/addnewmovie}" method="get" class="d-inline">
     <button type="submit" class="btn btn-primary">Add new movie</button>
   </form>
+  <form th:action="@{/favorites}" method="get" class="d-inline">
+    <button type="submit" class="btn btn-primary">Favorites</button>
+  </form>
 </div>
 
 <div class="container mt-4">
@@ -45,6 +48,10 @@
         <form th:action="@{/delete}" th:method="post">
           <input type="hidden" th:name="id" th:value="${movie.id_movie}"/>
           <button type="submit" class="btn btn-secondary">Delete movie</button>
+        </form>
+        <form th:action="@{/addtofavorite}" th:method="post">
+          <input type="hidden" th:name="id" th:value="${movie.id_movie}"/>
+          <button type="submit" class="btn btn-secondary">Add to favorite</button>
         </form>
       </div>
     </li>

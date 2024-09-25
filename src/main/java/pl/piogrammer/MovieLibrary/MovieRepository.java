@@ -5,6 +5,7 @@ import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import pl.piogrammer.MovieLibrary.Exceptions.MovieNotFoundException;
+import pl.piogrammer.MovieLibrary.model.FavoriteMovie;
 import pl.piogrammer.MovieLibrary.model.Movie;
 import pl.piogrammer.MovieLibrary.model.User;
 
@@ -26,6 +27,14 @@ public class MovieRepository {
         }
 
         return movies;
+    }
+
+    public List<FavoriteMovie> getAllFavoriteMovie(){
+        List<FavoriteMovie> favoriteMovies = jdbcTemplate.query("SELECT * from favorite_movie", BeanPropertyRowMapper.newInstance(FavoriteMovie.class));
+        for(FavoriteMovie favoriteMovie : favoriteMovies){
+            favoriteMovie.setImageBase64();
+        }
+        return favoriteMovies;
     }
 
     public List<Movie> getMovie(){
@@ -59,6 +68,14 @@ public class MovieRepository {
                 ));
         return 1;
     }
+/*
+    public int saveFavoriteMovie(List<FavoriteMovie>favoriteMovies){
+        favoriteMovies.forEach(favoriteMovie -> jdbcTemplate.update("INSERT INTO favorite_movie(id_favorite_movie, movie_name, rating, image, id_movie) VALUES(?, ?, ?, ?, ?)"));
+
+        return 1;
+    }
+
+*/
 
 
     public int update(Movie movie){
@@ -74,6 +91,8 @@ public class MovieRepository {
 
 
     }
+
+
 
 
     public int deleteMovie(Movie movie) {
@@ -93,7 +112,31 @@ public class MovieRepository {
         );
         return rowsAffected;
     }
+/*
+    public int saveFavoriteMovie(FavoriteMovie favoriteMovie) {
+        int rowsAffected = jdbcTemplate.update(
+                "INSERT INTO favorite_movie(id_favorite_movie,  movie_name, rating, image) VALUES (?, ?, ?, ?)",
+                favoriteMovie.getId_favorite_movie(),
+                favoriteMovie.getMovie_name(),
+                favoriteMovie.getRating(),
+                favoriteMovie.getImage()
 
+        );
+        return rowsAffected;
+    }*/
+
+
+    public int saveFavoriteMovie(FavoriteMovie favoriteMovie) {
+        int rowsAffected = jdbcTemplate.update(
+                "INSERT INTO favorite_movie(id_favorite_movie,  movie_name, rating, image) VALUES (?, ?, ?, ?)",
+                favoriteMovie.getId_favorite_movie(),
+                favoriteMovie.getMovie_name(),
+                favoriteMovie.getRating(),
+                favoriteMovie.getImage()
+
+        );
+        return rowsAffected;
+    }
 
 
     public int updateMovie(Movie movie) {
