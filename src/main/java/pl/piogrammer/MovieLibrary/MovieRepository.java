@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
+import pl.piogrammer.MovieLibrary.Exceptions.MovieNotFoundException;
+import pl.piogrammer.MovieLibrary.model.FavoriteMovie;
 import pl.piogrammer.MovieLibrary.model.Movie;
 import pl.piogrammer.MovieLibrary.model.User;
 
@@ -16,6 +18,7 @@ public class MovieRepository {
     List<Object> savedMovies = new ArrayList<Object>();
     @Autowired
     JdbcTemplate jdbcTemplate;
+    MovieNotFoundException movieNotFoundException;
 
     public List<Movie> getAll(){
         List<Movie> movies = jdbcTemplate.query("SELECT id_movie, movie_name, rating, image FROM movie", BeanPropertyRowMapper.newInstance(Movie.class));
@@ -24,6 +27,14 @@ public class MovieRepository {
         }
 
         return movies;
+    }
+
+    public List<FavoriteMovie> getAllFavoriteMovie(){
+        List<FavoriteMovie> favoriteMovies = jdbcTemplate.query("SELECT * from favorite_movie", BeanPropertyRowMapper.newInstance(FavoriteMovie.class));
+        for(FavoriteMovie favoriteMovie : favoriteMovies){
+            favoriteMovie.setImageBase64();
+        }
+        return favoriteMovies;
     }
 
     public List<Movie> getMovie(){
@@ -57,6 +68,14 @@ public class MovieRepository {
                 ));
         return 1;
     }
+/*
+    public int saveFavoriteMovie(List<FavoriteMovie>favoriteMovies){
+        favoriteMovies.forEach(favoriteMovie -> jdbcTemplate.update("INSERT INTO favorite_movie(id_favorite_movie, movie_name, rating, image, id_movie) VALUES(?, ?, ?, ?, ?)"));
+
+        return 1;
+    }
+
+*/
 
 
     public int update(Movie movie){
@@ -72,6 +91,8 @@ public class MovieRepository {
 
 
     }
+
+
 
 
     public int deleteMovie(Movie movie) {
@@ -91,17 +112,85 @@ public class MovieRepository {
         );
         return rowsAffected;
     }
+/*
+    public int saveFavoriteMovie(FavoriteMovie favoriteMovie) {
+        int rowsAffected = jdbcTemplate.update(
+                "INSERT INTO favorite_movie(id_favorite_movie,  movie_name, rating, image) VALUES (?, ?, ?, ?)",
+                favoriteMovie.getId_favorite_movie(),
+                favoriteMovie.getMovie_name(),
+                favoriteMovie.getRating(),
+                favoriteMovie.getImage()
 
+        );
+        return rowsAffected;
+    }*/
+
+
+    public int saveFavoriteMovie(FavoriteMovie favoriteMovie) {
+        int rowsAffected = jdbcTemplate.update(
+                "INSERT INTO favorite_movie(id_favorite_movie,  movie_name, rating, image) VALUES (?, ?, ?, ?)",
+                favoriteMovie.getId_favorite_movie(),
+                favoriteMovie.getMovie_name(),
+                favoriteMovie.getRating(),
+                favoriteMovie.getImage()
+
+        );
+        return rowsAffected;
+    }
 
 
     public int updateMovie(Movie movie) {
         int rowsAffected = jdbcTemplate.update(
-                "UPDATE movie SET movie_name = ?, rating = ? WHERE id_movie = ?",
+                "UPDATE movie SET movie_name = ?, rating = ?, image = ? WHERE id_movie = ?",
                 movie.getMovie_name(),
                 movie.getRating(),
+                movie.getImage() != null ? movie.getImage() : null, // Handle the case where the image might be null
                 movie.getId_movie()
         );
         return rowsAffected;
     }
+/*
+
+this method is used to only return movies by name it doesnt response any expetion when
+movie with specified name doesnt exist in  db
+    public List<Movie> findByName(String movieName) {
+        String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE movie_name LIKE ?";
+        return jdbcTemplate.query(sql, new Object[]{"%" + movieName + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+    }*/
+///this method find movie by name and throw expeption when movie with specified name doesnt exist
+    public List<Movie> findByName(String movieName) {
+        String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE movie_name LIKE ?";
+        List<Movie> movies = jdbcTemplate.query(sql, new Object[]{"%" + movieName + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+
+        if (movies.isEmpty()) {
+            throw new MovieNotFoundException("No movies found with the name: " + movieName);
+        }
+
+        return movies;
+    }
+
+
+    public List<Movie> findById(int id_movie){
+        String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE id_movie LIKE ?";
+        List<Movie> movies = jdbcTemplate.query(sql, new Object[]{"%" + id_movie + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+
+        if(movies.isEmpty()){
+            throw new MovieNotFoundException("No movies found with the id: " + id_movie);
+        }
+        return movies;
+
+    }
+/*
+this method is used to only return movies by name it doesnt response any expetion when
+movie with specified name doesnt exist in  db
+
+    public List<Movie> findById(int id_movie){
+        String sql = "SELECT id_movie, movie_name, rating, image FROM movie WHERE id_movie LIKE ?";
+        return jdbcTemplate.query(sql, new Object[]{"%" + id_movie + "%"}, BeanPropertyRowMapper.newInstance(Movie.class));
+    }*/
+
+
+
+
 
 }
