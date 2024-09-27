@@ -7,16 +7,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import pl.piogrammer.MovieLibrary.MovieRepository;
 import pl.piogrammer.MovieLibrary.model.User;
 import pl.piogrammer.MovieLibrary.service.UserService;
-
+import pl.piogrammer.MovieLibrary.model.Movie;
 @Controller
 public class LoginController {
 
 
     @Autowired
     private final UserService userService;
-
+    @Autowired
+    MovieRepository movieRepository;
 
     public LoginController(UserService userService) {
         this.userService = userService;
@@ -35,7 +37,7 @@ public class LoginController {
         User authenticated = userService.authenticate(user.getLogin(), user.getPassword());
         if(authenticated != null){
             model.addAttribute("userLogin", authenticated.getLogin());
-            return "user_view";
+            return "movies";
         }else{
             return "error_page";
         }

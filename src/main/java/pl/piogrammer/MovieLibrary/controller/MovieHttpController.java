@@ -66,6 +66,10 @@ public class MovieHttpController {
         movieRepository.delete(movie);
         return "redirect:/httpmovies";
     }
+
+
+
+
 /*
     @PostMapping("/saveUpdate")
     public String saveUpdate(Movie movie) {
@@ -157,6 +161,37 @@ public class MovieHttpController {
 
         return "redirect:/httpmovies";
     }
+/*
+    @PostMapping("/deletefavoritemovie")
+    public String deleteFavoriteMovie(@RequestParam("id_favorite_movie") Long id_fm, Model model){
+        FavoriteMovie favoriteMovie = movieRepository.getFavoriteMovieById(id_fm.byteValue());
+        model.addAttribute("favorite_movie", favoriteMovie);
+        return "delete_favorite_movie_form";
+    }*/
+
+    @PostMapping("/deletefavoritemovie")
+    public String deleteFavoriteMovie(@RequestParam("id_favorite_movie") int id_favorite_movie, Model model) {
+        // Fetch the movie by id and handle deletion logic
+        FavoriteMovie favoriteMovie = movieRepository.getFavoriteMovieById(id_favorite_movie);
+        model.addAttribute("favorite_movie", favoriteMovie);
+        return "delete_favorite_movie_form";
+    }
+
+    @PostMapping("saveDeletedFavoriteMovie")
+    public String saveDeletedFavoriteMovie(FavoriteMovie favoriteMovie){
+        movieRepository.deleteFavoriteMovie(favoriteMovie);
+        return "redirect:/favorites";
+    }
+
+/*
+
+
+    @PostMapping("/delete")
+    public String delete(@RequestParam("id") Long id, Model model){
+        Movie movie = movieRepository.getById(id.byteValue());
+        model.addAttribute("movie", movie);
+        return "delete_movie_form";
+    }*/
 
 
 /*

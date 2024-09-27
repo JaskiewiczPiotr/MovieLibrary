@@ -6,6 +6,18 @@
   <link rel="stylesheet" href="user_view_movies_style.css">
 </head>
 <body>
+<div class="topnav">
+
+  <form th:action="@{/httpmovies}" method="get" class="d-inline">
+    <button type="submit" class="btn btn-primary">Home</button>
+  </form>
+  <form th:action="@{/addnewmovie}" method="get" class="d-inline">
+    <button type="submit" class="btn btn-primary">Add new movie</button>
+  </form>
+  <form th:action="@{/favorites}" method="get" class="d-inline">
+    <button type="submit" class="btn btn-primary">Favorites</button>
+  </form>
+</div>
 <h2>Delete Movie</h2>
 
 <form th:action="@{/saveDeletedMovie}" th:method="delete">

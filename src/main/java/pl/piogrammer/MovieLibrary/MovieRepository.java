@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 import pl.piogrammer.MovieLibrary.Exceptions.MovieNotFoundException;
 import pl.piogrammer.MovieLibrary.model.FavoriteMovie;
 import pl.piogrammer.MovieLibrary.model.Movie;
-import pl.piogrammer.MovieLibrary.model.User;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,6 +44,11 @@ public class MovieRepository {
     public Movie getById(int id_movie){
         return jdbcTemplate.queryForObject("SELECT id_movie, movie_name, rating FROM movie WHERE " + "id_movie=?",
                 BeanPropertyRowMapper.newInstance(Movie.class), id_movie);
+    }
+
+    public FavoriteMovie getFavoriteMovieById(int id_favorite_movie){
+        return jdbcTemplate.queryForObject("SELECT id_favorite_movie, movie_name, rating FROM favorite_movie WHERE " + "id_favorite_movie=?",
+                BeanPropertyRowMapper.newInstance(FavoriteMovie.class), id_favorite_movie);
     }
 
 
@@ -88,8 +92,12 @@ public class MovieRepository {
           jdbcTemplate.update("DELETE FROM movie WHERE id_movie=?",
                 movie.getId_movie());
           return 1;
+    }
 
-
+    public int deleteFavoriteMovie(FavoriteMovie favoriteMovie){
+        jdbcTemplate.update("DELETE FROM favorite_movie WHERE id_favorite_movie=?",
+                favoriteMovie.getId_favorite_movie());
+        return 1;
     }
 
 
