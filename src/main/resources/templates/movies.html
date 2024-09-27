@@ -8,7 +8,10 @@
 </head>
 <body>
 <div class="topnav">
-  <a class="active" href="#home">Home</a>
+
+  <form th:action="@{/httpmovies}" method="get" class="d-inline">
+    <button type="submit" class="btn btn-primary">Home</button>
+  </form>
   <form th:action="@{/addnewmovie}" method="get" class="d-inline">
     <button type="submit" class="btn btn-primary">Add new movie</button>
   </form>
