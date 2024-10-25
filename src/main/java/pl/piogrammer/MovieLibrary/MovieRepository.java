@@ -72,14 +72,7 @@ public class MovieRepository {
                 ));
         return 1;
     }
-/*
-    public int saveFavoriteMovie(List<FavoriteMovie>favoriteMovies){
-        favoriteMovies.forEach(favoriteMovie -> jdbcTemplate.update("INSERT INTO favorite_movie(id_favorite_movie, movie_name, rating, image, id_movie) VALUES(?, ?, ?, ?, ?)"));
 
-        return 1;
-    }
-
-*/
 
 
     public int update(Movie movie){
@@ -120,18 +113,7 @@ public class MovieRepository {
         );
         return rowsAffected;
     }
-/*
-    public int saveFavoriteMovie(FavoriteMovie favoriteMovie) {
-        int rowsAffected = jdbcTemplate.update(
-                "INSERT INTO favorite_movie(id_favorite_movie,  movie_name, rating, image) VALUES (?, ?, ?, ?)",
-                favoriteMovie.getId_favorite_movie(),
-                favoriteMovie.getMovie_name(),
-                favoriteMovie.getRating(),
-                favoriteMovie.getImage()
 
-        );
-        return rowsAffected;
-    }*/
 
 
     public int saveFavoriteMovie(FavoriteMovie favoriteMovie) {
